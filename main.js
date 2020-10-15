@@ -1,6 +1,8 @@
+let onUpdate = false;
 
-if ('serviceWorker' in navigator)
-		{navigator.serviceWorker
+window.isUpdateAvailable = new Promise(function (resolve, reject) {
+	if ('serviceWorker' in navigator)
+		navigator.serviceWorker
 			.register('./sw.js', {
 				scope: './'
 			})
@@ -15,5 +17,6 @@ if ('serviceWorker' in navigator)
 					};
 				};
 			});
-
-        }
+}).then(isAvailable => {
+	if (isAvailable) onUpdate = true;
+});
