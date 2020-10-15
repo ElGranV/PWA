@@ -1,0 +1,9 @@
+{
+    "start_url":"file:///C:/Users/utilisateur/Desktop/Informatique/PWA/index.html",
+    "name":"Tu peux pas test",
+    "short_name":"Test",
+    "background_color":"blue",
+    "theme_color":"blue",
+    "display":"standalone",
+    "orientation":"any"
+}
