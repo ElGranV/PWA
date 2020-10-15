@@ -6,6 +6,7 @@ let files = [
     "./register.html",
     "./style.css",
     "./general.css",
+	"./main.js",
     "./src/api.js",
     "./src/cookie.js",
     "./src/custom.js",
