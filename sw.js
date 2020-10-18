@@ -47,9 +47,17 @@ self.addEventListener('fetch', event => {
 				return res;
 			} else {
 				// console.warn(`used fetch for ${file}`);
-				return fetch(event.request).catch(err => {
-					console.error(`fetch error for ${file}`);
-				});
+				
+				return fetch( event.request )
+					       .then( response => {
+					    const copy = response.clone();
+					    // Wait until the response we received is added to the cache.
+					    event.waitUntil(
+						caches.open( "pages" )
+						      .then( cache => {
+						    return cache.put( event.request, response );
+						}))}
+                    );
 			}
 		})
 	);
