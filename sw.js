@@ -53,7 +53,7 @@ self.addEventListener('fetch', event => {
 					    const copy = response.clone();
 					    // Wait until the response we received is added to the cache.
 					    event.waitUntil(
-						caches.open( "pages" )
+						caches.open( "static" )
 						      .then( cache => {
 						    return cache.put( event.request, response );
 						}))}
