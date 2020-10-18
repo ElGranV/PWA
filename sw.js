@@ -24,42 +24,22 @@ let files = [
     "./images/home.png",
     "./images/logo.png"
 ];
-
-
-self.addEventListener( "fetch", event => {
-    const request = event.request,
-                    url = request.url.split('/');
-	url = url[url.length -1];
-    
-    // If we are requesting an HTML page.
-    if ( request.headers.get("Accept").includes("text/html") ) {
-        event.respondWith(
-            // Check the cache first to see if the asset exists, and if it does, return the cached asset.
-            caches.match( request )
-                  .then( cached_result => {
-                if ( cached_result ) {
-                    return cached_result;
-                }
-                // If the asset is not in the cache, fallback to a network request for the asset, and proceed to cache the result.
-                return fetch( request )
-                       .then( response => {
-                    const copy = response.clone();
-                    // Wait until the response we received is added to the cache.
-                    event.waitUntil(
-                        caches.open( "pages" )
-                              .then( cache => {
-                            return cache.put( request, response );
-                        });
-                    );
-                    return response;
-                })
-                // If the network is unavailable to make a request, pull the offline page out of the cache.
-                .catch(() => caches.match( "/offline/" ));
-            })
-        ); // end respondWith
-    } // end if HTML
-	else{
-		event.respondWith(
+self.addEventListener('install', event => {
+	event.waitUntil(
+		caches.open('static').then(cache => {
+			return cache
+				.addAll(files)
+				.then(() => self.skipWaiting())
+				.catch(error => {
+					console.error('Erreur de cache.');
+				});
+		})
+	);
+});
+self.addEventListener('fetch', event => {
+	let file = event.request.url.split('/');
+	file = file[file.length - 1];
+	event.respondWith(
 		caches.match(event.request).then(res => {
 			if (res) {
 				// console.log(`used cache for ${file}`);
@@ -67,10 +47,9 @@ self.addEventListener( "fetch", event => {
 			} else {
 				// console.warn(`used fetch for ${file}`);
 				return fetch(event.request).catch(err => {
-					console.error("fetch error for ",request);
+					console.error(`fetch error for ${file}`);
 				});
 			}
 		})
-	}
+	);
 });
-
