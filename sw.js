@@ -31,7 +31,7 @@ self.addEventListener('install', event => {
 				.addAll(files)
 				.then(() => self.skipWaiting())
 				.catch(error => {
-					console.error('Erreur de cache.');
+					console.error('Erreur de cache.',error);
 				});
 		})
 	);
