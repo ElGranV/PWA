@@ -39,10 +39,11 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
 	let file = event.request.url.split('/');
 	file = file[file.length - 1];
+	console.log("file",file);
 	event.respondWith(
 		caches.match(event.request).then(res => {
 			if (res) {
-				// console.log(`used cache for ${file}`);
+				console.log("used cache for", file);
 				return res;
 			} else {
 				// console.warn(`used fetch for ${file}`);
