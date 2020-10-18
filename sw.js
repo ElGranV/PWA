@@ -67,7 +67,7 @@ self.addEventListener( "fetch", event => {
 			} else {
 				// console.warn(`used fetch for ${file}`);
 				return fetch(event.request).catch(err => {
-					console.error(`fetch error for ${file}`);
+					console.error("fetch error for ",request);
 				});
 			}
 		})
